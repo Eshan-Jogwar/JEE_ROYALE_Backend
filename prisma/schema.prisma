@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Questions{
+  id String @id @default(uuid())
+  Subject String
+  Chapter String
+  Topic String
+  Options String[]
+  questionID String
+  pastOccurance PastBattles[]
+}
+
+model PastBattles{
+  pastBattleId String @id
+  player UserTable @relation(fields: [pastBattleId], references: [id])
+  subject String
+  subtopic String
+  number_of_questions Int
+  total_time Int
+  Position Int
+  answers Int[]
+  questions  Questions[]
+}
+
+model UserTable{
+  id    String   @id   @default(uuid())
+  name  String
+  email String
+  password String
+  victories Int @default(0)
+  games_played Int @default(0)
+  average_score Int @default(0)
+  average_time Int @default(0)
+  highest_streak Int @default(0)
+  rr Rank @default(ROOKIE)
+  Battles PastBattles[]
+}
+
+model liveSessions{
+  id String @id @default(uuid())
+  sessionId String
+  people Int
+}
+
+enum Rank {
+  ROOKIE
+  BRONZE
+  SILVER
+  GOLD
+  LEGEND
+  CONQUEROR
+  TOP_1000
+  TOP_500
+  TOP_200
+  TOP_100
+  AIR0
+}
+
