@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon run server.js"
+    "dev": "nodemon run server.js",
+    "SqlServer": "psql postgresql://postgres:password@localhost:5432/JEE_Royale_Service"
   },
   "keywords": [],
   "author": "",
