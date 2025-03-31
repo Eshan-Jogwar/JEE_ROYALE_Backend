@@ -5,7 +5,7 @@ import cors from "cors"
 import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 const app = express();
-// Middleware
+const MAX_PEOPLE_IN_ONE_GAME = 10
 app.use(cors());
 app.use(express.json());
 
@@ -89,6 +89,29 @@ app.post("/getprofile", async (req, res) => {
         res.json({
             signupredirect: true
         })
+    }
+})
+
+app.post("/startSession", async (req, res) => {
+    const sessions = await client.liveSessions.findFirst({
+        select: {
+            sessionId: true
+        },
+        where: {
+            people: {lt : MAX_PEOPLE_IN_ONE_GAME},
+            subject: req.body.subject,
+            topic: req.body.topic
+        }
+    });
+    if (sessions) {
+        res.json({sessionId: sessions.sessionId});
+    }else{
+        const newSession = await client.liveSessions.create({
+            people: 1,
+            subject: req.body.subject,
+            topic: req.body.topic
+        });
+        res.json(newSession.sessionId);
     }
 })
 
