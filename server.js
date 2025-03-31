@@ -62,6 +62,36 @@ app.post("/loginuser", async (req, res) => {
     }
 });
 
+app.post("/getprofile", async (req, res) => {
+    const data = await client.userTable.findFirst({
+        where: {
+            name: req.body.name,
+            email: req.body.email
+        },
+        select: {
+            name: true,
+            victories: true,
+            games_played: true,
+            average_score: true,
+            average_time: true,
+            highest_streak: true,
+            rr: true
+        }
+    })
+
+    if (data) {
+        res.json({
+            signupredirect: false,
+            data_body: data
+        });
+    }
+    else{
+        res.json({
+            signupredirect: true
+        })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
