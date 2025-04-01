@@ -95,7 +95,9 @@ app.post("/getprofile", async (req, res) => {
 app.post("/startSession", async (req, res) => {
     const sessions = await client.liveSessions.findFirst({
         select: {
-            sessionId: true
+            sessionId: true,
+            id: true,
+            people: true
         },
         where: {
             people: {lt : MAX_PEOPLE_IN_ONE_GAME},
@@ -104,14 +106,43 @@ app.post("/startSession", async (req, res) => {
         }
     });
     if (sessions) {
-        res.json({sessionId: sessions.sessionId});
+        if (sessions.people == 10){
+            await client.liveSessions.delete({
+                where: {
+                    id: sessions.id
+                }
+            })
+            const newSession = await client.liveSessions.create({
+                data: {
+                    people: 1,
+                    subject: req.body.subject,
+                    topic: req.body.topic
+                }
+            });
+            res.json({sessionId: newSession.sessionId});
+        }else{
+            await client.liveSessions.update({
+                where: {
+                    id: sessions.id
+                },
+                data: {
+                    people: { increment: 1 } 
+                },
+                select: {
+                    people: true 
+                }
+            });
+            res.json({sessionId: sessions.sessionId});
+        }
     }else{
         const newSession = await client.liveSessions.create({
-            people: 1,
-            subject: req.body.subject,
-            topic: req.body.topic
+            data: {
+                people: 1,
+                subject: req.body.subject,
+                topic: req.body.topic
+            }
         });
-        res.json(newSession.sessionId);
+        res.json({sessionId: newSession.sessionId});
     }
 })
 

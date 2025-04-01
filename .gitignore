@@ -3,3 +3,4 @@ node_modules
 .env
 testEndPoint.bat
 testLoginEndPoint.bat
+testStartSessionEndPoint.bat

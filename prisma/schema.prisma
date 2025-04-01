@@ -13,69 +13,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Questions{
-  id String @id @default(uuid())
-  Subject String
-  Chapter String
-  Topic String
-  Options String[]
-  questionID String
+model Questions {
+  id             String        @id @default(uuid())
+  Subject        String
+  Chapter        String
+  Topic          String
+  Options        String[]
+  questionID     String
   correct_option Int
-  pastOccurance PastBattles[]
+  pastOccurance  PastBattles[]
 }
 
-model PastBattles{
-  pastBattleId String @id
-  player UserTable @relation(fields: [pastBattleId], references: [id])
-  subject String
-  subtopic String
+model PastBattles {
+  pastBattleId        String      @id
+  player              UserTable   @relation(fields: [pastBattleId], references: [id])
+  subject             String
+  subtopic            String
   number_of_questions Int
-  total_time Int
-  Position Int
-  answers Int[]
-  questions  Questions[]
+  total_time          Int
+  Position            Int
+  answers             Int[]
+  questions           Questions[]
 }
 
-model UserTable{
-  id    String   @id   @default(uuid())
-  name  String
-  email String
-  password String
-  victories Int @default(0)
-  games_played Int @default(0)
-  average_score Int @default(0)
-  average_time Int @default(0)
-  highest_streak Int @default(0)
-  rr Rank @default(ROOKIE)
-  Battles PastBattles[]
+model UserTable {
+  id             String        @id @default(uuid())
+  name           String
+  email          String
+  password       String
+  victories      Int           @default(0)
+  games_played   Int           @default(0)
+  average_score  Int           @default(0)
+  average_time   Int           @default(0)
+  highest_streak Int           @default(0)
+  rr             Rank          @default(ROOKIE)
+  Battles        PastBattles[]
 }
 
-model liveSessions{
-  id String @id @default(uuid())
+model liveSessions {
+  id        String @id @default(uuid())
   sessionId String @default(uuid())
-  people Int
-  subject String
-  topic String
+  people    Int
+  subject   String
+  topic     String
 }
 
-model liveSessionsQuestions{
-  id String @id @default(uuid())
-  sessionId String
-  question1 String
-  question2 String
-  question3 String
-  question4 String
-  question5 String
-  question6 String
-  question7 String
-  question8 String
-  question9 String
+model liveSessionsQuestions {
+  id         String @id @default(uuid())
+  sessionId  String
+  question1  String
+  question2  String
+  question3  String
+  question4  String
+  question5  String
+  question6  String
+  question7  String
+  question8  String
+  question9  String
   question10 String
 }
 
-model liveQuestionsAnswerTable{
-  id String @id @default(uuid())
-  sessionId String
+model liveQuestionsAnswerTable {
+  id           String @id @default(uuid())
+  sessionId    String
   curr_answers Int[]
 }
 
@@ -92,4 +92,3 @@ enum Rank {
   TOP_100
   AIR0
 }
-
