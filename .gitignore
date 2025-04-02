@@ -4,3 +4,5 @@ node_modules
 testEndPoint.bat
 testLoginEndPoint.bat
 testStartSessionEndPoint.bat
+testtGetNumPeopleEndPoint.bat
+testEndSession.bat

@@ -19,7 +19,8 @@ model Questions {
   Chapter        String
   Topic          String
   Options        String[]
-  questionID     String
+  Question_Body  String
+  questionID     String        @default(uuid())
   correct_option Int
   pastOccurance  PastBattles[]
 }
@@ -52,25 +53,17 @@ model UserTable {
 
 model liveSessions {
   id        String @id @default(uuid())
-  sessionId String @default(uuid())
+  sessionId String @default(uuid()) @unique
   people    Int
   subject   String
   topic     String
 }
 
 model liveSessionsQuestions {
-  id         String @id @default(uuid())
-  sessionId  String
-  question1  String
-  question2  String
-  question3  String
-  question4  String
-  question5  String
-  question6  String
-  question7  String
-  question8  String
-  question9  String
-  question10 String
+  id        String   @id @default(uuid())
+  sessionId String
+  questions String[]
+  options String[]
 }
 
 model liveQuestionsAnswerTable {
