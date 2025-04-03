@@ -303,11 +303,22 @@ app.post("/updateQuestions", async (req, res) => {
             current_answers: correct_options_list
         }
 
-        const addedQuestions = await client.liveSessionsQuestions.create({
-            data : addQuestionsData
+        const qeus = await client.liveSessionsQuestions.findFirst({
+            where : {
+                sessionId: req.body.sessionId
+            }
         })
 
-        res.json({ addedQuestions });
+        if (qeus) {
+            res.json({addedQuestions: qeus});
+        }else{
+            const addedQuestions = await client.liveSessionsQuestions.create({
+                data: addQuestionsData
+            })
+            res.json({addedQuestions: addedQuestions});
+        }
+
+        
     } catch (error) {
         console.error("Database query failed:", error);
         res.status(500).json({ error: "Internal Server Error" });
