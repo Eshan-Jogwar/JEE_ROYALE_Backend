@@ -61,15 +61,10 @@ model liveSessions {
 
 model liveSessionsQuestions {
   id        String   @id @default(uuid())
-  sessionId String
+  sessionId String @unique
   questions String[]
   options String[]
-}
-
-model liveQuestionsAnswerTable {
-  id           String @id @default(uuid())
-  sessionId    String
-  curr_answers Int[]
+  current_answers Int[]
 }
 
 enum Rank {

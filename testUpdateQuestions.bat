@@ -1,1 +1,1 @@
-curl -X POST "http://localhost:142/updateQuestions" -H "Content-Type: application/json" -d "{\"sessionId\":\"e22eef73-9d78-4279-a3c6-04c1162b051c\"}"
+curl -X POST "http://localhost:142/updateQuestions" -H "Content-Type: application/json" -d "{\"sessionId\":\"e22ee73-9d7-4279-a3c6-04c1162b051c\"}"

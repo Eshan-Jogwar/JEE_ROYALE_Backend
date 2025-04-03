@@ -104,7 +104,162 @@ app.post("/getNumPeople", async (req, res) => {
 
     res.json({people: people.people})
 })
-  
+
+const questions = [
+    {
+      Subject: "mathematics",
+      Chapter: "Algebra",
+      Topic: "1-1",
+      Options: ["2", "3", "4", "5"],
+      Question_Body: "What is 2 + 2?",
+      correct_option: 2,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Geometry",
+      Topic: "1-1",
+      Options: ["90 degrees", "180 degrees", "360 degrees", "45 degrees"],
+      Question_Body: "What is the sum of the interior angles of a triangle?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Calculus",
+      Topic: "1-1",
+      Options: ["Derivative", "Integral", "Limit", "Function"],
+      Question_Body: "Which mathematical concept represents the rate of change of a function?",
+      correct_option: 0,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Probability",
+      Topic: "1-1",
+      Options: ["1/2", "1/3", "1/4", "1/6"],
+      Question_Body: "If a fair coin is flipped, what is the probability of getting heads?",
+      correct_option: 0,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Trigonometry",
+      Topic: "1-1",
+      Options: ["sin", "cos", "tan", "cot"],
+      Question_Body: "Which trigonometric function is equal to the opposite side divided by the hypotenuse?",
+      correct_option: 0,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Algebra",
+      Topic: "1-1",
+      Options: ["x", "x^2", "x^3", "x^4"],
+      Question_Body: "What is x multiplied by itself?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Geometry",
+      Topic: "1-1",
+      Options: ["Rectangle", "Circle", "Triangle", "Pentagon"],
+      Question_Body: "Which shape has three sides?",
+      correct_option: 2,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Trigonometry",
+      Topic: "1-1",
+      Options: ["Sine Rule", "Cosine Rule", "Pythagoras' Theorem", "Tangent Rule"],
+      Question_Body: "Which theorem states that a² + b² = c²?",
+      correct_option: 2,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Probability",
+      Topic: "1-1",
+      Options: ["Independent", "Dependent", "Mutually Exclusive", "Conditional"],
+      Question_Body: "What type of probability describes events that do not affect each other?",
+      correct_option: 0,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Statistics",
+      Topic: "1-1",
+      Options: ["Mean", "Median", "Mode", "Range"],
+      Question_Body: "Which measure of central tendency is the middle value in an ordered dataset?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Calculus",
+      Topic: "1-1",
+      Options: ["Limit", "Differentiation", "Integration", "Summation"],
+      Question_Body: "What is the process of finding the derivative of a function?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Number Theory",
+      Topic: "1-1",
+      Options: ["Even", "Odd", "Prime", "Composite"],
+      Question_Body: "A number that has exactly two divisors is called?",
+      correct_option: 2,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Sets",
+      Topic: "1-1",
+      Options: ["Union", "Intersection", "Difference", "Complement"],
+      Question_Body: "Which operation on sets includes only common elements?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Algebra",
+      Topic: "1-1",
+      Options: ["Linear Equation", "Quadratic Equation", "Cubic Equation", "Exponential Equation"],
+      Question_Body: "Which type of equation has the highest exponent of 2?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Geometry",
+      Topic: "1-1",
+      Options: ["Scalene", "Isosceles", "Equilateral", "Right-angled"],
+      Question_Body: "A triangle with all sides equal is called?",
+      correct_option: 2,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Algebra",
+      Topic: "1-1",
+      Options: ["Addition", "Multiplication", "Exponentiation", "Logarithm"],
+      Question_Body: "What operation is the inverse of exponentiation?",
+      correct_option: 3,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Statistics",
+      Topic: "1-1",
+      Options: ["Histogram", "Pie Chart", "Bar Graph", "Line Graph"],
+      Question_Body: "Which type of graph is used to show frequency distribution?",
+      correct_option: 0,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Trigonometry",
+      Topic: "1-1",
+      Options: ["0", "1", "Infinity", "-1"],
+      Question_Body: "What is the value of sin(90°)?",
+      correct_option: 1,
+    },
+    {
+      Subject: "mathematics",
+      Chapter: "Probability",
+      Topic: "1-1",
+      Options: ["Sample Space", "Event", "Outcome", "Experiment"],
+      Question_Body: "What is the set of all possible outcomes in probability?",
+      correct_option: 0,
+    }
+];
+
 app.get("/add-questions", async (req, res) => {
     try {
       const createdQuestions = await client.questions.createMany({
@@ -141,28 +296,32 @@ app.post("/updateQuestions", async (req, res) => {
             correct_options_list.push(questions[i].correct_option)
         }
 
+        const addQuestionsData = {
+            sessionId: req.body.sessionId,
+            questions: questions_list,
+            options: options_list,
+            current_answers: correct_options_list
+        }
+
         const addedQuestions = await client.liveSessionsQuestions.create({
-            data : {
-                sessionId: req.body.sessionId,
-                questions: questions_list,
-                options: options_list
-            }
+            data : addQuestionsData
         })
 
-        const addedAnswers = await client.liveQuestionsAnswerTable.create({
-            data : {
-                sessionId: req.body.sessionId,
-                curr_answers: correct_options_list
-            }
-        })
-
-        res.json({ addedQuestions, addedAnswers });
+        res.json({ addedQuestions });
     } catch (error) {
         console.error("Database query failed:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }) 
 
+app.post("/getQuestions", async (req, res) => {
+    const questions = await client.liveSessionsQuestions.findFirst({
+        where: {
+            sessionId: req.body.sessionId
+        }
+    })
+    res.json({ questions });
+})
 
 app.post("/endSession", async (req, res) => {
     const temp = await client.liveSessions.delete({
@@ -170,7 +329,12 @@ app.post("/endSession", async (req, res) => {
             sessionId: req.body.sessionId 
         }
     })
-    if (temp) res.json(temp);
+    const deleteLiveSessionsQuestions = await client.liveSessionsQuestions.delete({
+        where : {
+            sessionId: req.body.sessionId
+        }
+    })
+    res.json({temp , deleteLiveSessionsQuestions});
 })
 
 app.post("/startSession", async (req, res) => {
