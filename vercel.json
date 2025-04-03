@@ -15,8 +15,5 @@
       "runtime": "nodejs18.x",
       "includeFiles": "prisma/schema.prisma"
     }
-  },
-  "commands": {
-    "build": "prisma generate && next build"
   }
 }
