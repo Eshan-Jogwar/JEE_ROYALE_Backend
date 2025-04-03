@@ -1,1 +1,1 @@
-curl -X POST "http://localhost:142/getQuestions" -H "Content-Type: application/json" -d "{\"sessionId\":\"a6d966af-5675-409f-9d9b-0394b64ef56f\"}"
+curl -X POST "https://jee-royale-backend-h40lkpelh-eshan-jogwars-projects.vercel.app/getNumPeople" -H "Content-Type: application/json" -d "{\"sessionId\":\"a6d966af-5675-409f-9d9b-0394b64ef56f\"}"

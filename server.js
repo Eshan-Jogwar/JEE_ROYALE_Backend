@@ -105,6 +105,10 @@ app.post("/getNumPeople", async (req, res) => {
     res.json({people: people.people})
 })
 
+app.get("/test", async (req, res) => {
+    res.json({test: "string"})
+})
+
 const questions = [
     {
       Subject: "mathematics",
