@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon run server.js",
     "SqlServer": "psql postgresql://postgres:password@localhost:5432/JEE_Royale_Service",
-    "UDP": "nodemon run UDP_SERVER_CONNECTION.js"
+    "UDP": "nodemon run UDP_SERVER_CONNECTION.js",
+    "build": "prisma generate && next build"
   },
   "keywords": [],
   "author": "",
